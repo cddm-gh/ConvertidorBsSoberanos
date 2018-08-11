@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Calculadora Bolivares Soberanos</string>
+    <string name="app_name">Calculadora BsS</string>
     <string name="texto_btnCalcular">CALCULAR</string>
     <string name="text_hint">Introduzca el monto en Bs Fuertes</string>
     <string name="btnLimpiar">Limpiar</string>
