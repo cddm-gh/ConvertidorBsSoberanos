@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Calculadora BsS</string>
+    <string name="app_name">Calculadora BsS-BsF</string>
     <string name="texto_btnCalcular">CALCULAR</string>
-    <string name="text_hint">Introduzca el monto en Bs Fuertes</string>
+    <string name="text_hint">Introduzca el monto a calcular</string>
     <string name="btnLimpiar">Limpiar</string>
+    <string name="BsFaBsS">De Bs.F a Bs.S</string>
+    <string name="BsSaBsF">De Bs.S a Bs.F</string>
 </resources>
