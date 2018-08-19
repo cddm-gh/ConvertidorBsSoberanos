@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton radioBsSaBsf, radioBsFaBsS;
     private RadioGroup radioGroup;
     private final double CONVERSION = 100000;
-    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("###,###.##");//Dar formato al texto de salida
+    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("###,##0.00");//Dar formato al texto de salida
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         radioBsFaBsS = findViewById(R.id.radioBsFaBsS);
         radioBsSaBsf = findViewById(R.id.radioBsSaBsF);
         radioGroup = findViewById(R.id.radioGroupOperaciones);
+
 
         btnCalcular.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,31 +76,50 @@ public class MainActivity extends AppCompatActivity {
         txtResultado.setText("");
     }
 
+    private boolean editTextIsEmpty(EditText etText) {
+        if (etText.getText().toString().trim().length() > 0)
+            return false;
+
+        return true;//false no esta vacia
+    }
+
     public void convertirDeBsFaBsS() {
-        if (!editCantidad.getText().equals("")) {
+
+        if (editTextIsEmpty(editCantidad)) {
+            Toast.makeText(this, "Por favor indique una cantidad para calcular", Toast.LENGTH_SHORT).show();
+        }else{
             try {
                 double monto = Double.parseDouble(editCantidad.getText().toString().replace(",", ""));
-                double resultado = monto / CONVERSION;
-                String salida = "";
-                //txtResultado.setText(String.valueOf(resultado));
-                salida = "Son: " + REAL_FORMATTER.format((resultado)) + " Bs.S";
-                txtResultado.setText(salida);
+                if(monto >= 1000){
+                    double resultado = monto / CONVERSION;
+                    String salida = "";
+                    //txtResultado.setText(String.valueOf(resultado));
+                    salida = "Son: " + REAL_FORMATTER.format((resultado)) + " Bs.Soberanos";
+                    txtResultado.setText(salida);
+                }else{
+                    Toast.makeText(this,"Indique una cantidad mayor a 1.000 Bs.F ya que montos menores no tienen equivalencia en " +
+                            "el nuevo cono monetario.", Toast.LENGTH_LONG).show();
+                    txtResultado.setText("Son: 0 Bs Soberanos");
+                    editCantidad.setError("Indique una cantidad mayor a 1.000 Bs.F");
+                }
+
             } catch (NumberFormatException e) {
-                //Log.e("Error-->", "convertirMonto: " + e.getMessage());
-                Toast.makeText(this, "Por favor indique una cantidad para calcular", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error en la conversión: Debe introducir números ", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     public void convertirDeBsSaBsF(){
-        if(!editCantidad.getText().equals("")){
+        if(editTextIsEmpty(editCantidad)){
+            Toast.makeText(this,"Por favor indique una cantidad para calcular.",Toast.LENGTH_SHORT).show();
+        }else{
             try {
                 double monto = Double.parseDouble(editCantidad.getText().toString().replace(",",""));
                 double resultado = monto * CONVERSION;
-                String salida = "Son: " + REAL_FORMATTER.format((resultado)) + " Bs.F";
+                String salida = "Son: " + REAL_FORMATTER.format((resultado)) + " Bs.Fuertes";
                 txtResultado.setText(salida);
             }catch(NumberFormatException e){
-                Toast.makeText(this, "Por favor indique una cantidad para calcular", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error en la conversión: Debe introducir números", Toast.LENGTH_SHORT).show();
             }
         }
     }

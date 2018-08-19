@@ -14,12 +14,12 @@ class NumberTextWatcher implements TextWatcher {
     private boolean hasFractionalPart;
 
     private EditText et;
-    //Dar formato al texto de entrada separando por comas
+    //Dar formato al texto de entrada separando por comas y decimales
     public NumberTextWatcher(EditText et)
     {
         df = new DecimalFormat("#,###.##");
         df.setDecimalSeparatorAlwaysShown(true);
-        dfnd = new DecimalFormat("#,###");
+        dfnd = new DecimalFormat("#,###.##");
         this.et = et;
         hasFractionalPart = false;
     }
@@ -36,13 +36,17 @@ class NumberTextWatcher implements TextWatcher {
             inilen = et.getText().length();
 
             String v = s.toString().replace(String.valueOf(df.getDecimalFormatSymbols().getGroupingSeparator()), "");
+            hasFractionalPart = v.contains(".");
             Number n = df.parse(v);
             int cp = et.getSelectionStart();
-            if (hasFractionalPart) {
-                et.setText(df.format(n));
-            } else {
+            if (!hasFractionalPart) {
                 et.setText(dfnd.format(n));
+            }else {
+                if (v.lastIndexOf(".")>v.indexOf(".")){
+                    v = v.substring(0,v.length()-1);
+                }
             }
+
             endlen = et.getText().length();
             int sel = (cp + (endlen - inilen));
             if (sel > 0 && sel <= et.getText().length()) {
